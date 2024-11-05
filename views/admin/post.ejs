@@ -1,0 +1,44 @@
+
+<a href="/admin" class="btn_back"><i class="fa-solid fa-backward"></i> BACK</a>
+
+<div class="admin-title">
+  <h2>Add New Post</h2>
+</div>
+
+<form action="/admin/postt" method="POST" enctype="multipart/form-data" class="post-form">
+
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post Title" name="title">
+
+  <label for="body"><b>Content</b></label>
+  <textarea name="body" cols="50" rows="10"></textarea>
+
+
+  <label for="category"><b>Category</b></label>
+
+  <select name="category" required class="cbb_category">
+    <option value="">Select a category</option>
+    <% categorys.forEach(category => { %>
+      <option value="<%= category._id %>"><%= category.name %></option>
+    <% }); %>
+  </select>
+  
+
+    <div class="post_bottom">
+        <div>
+            <label for="date"><b>Date posted</b></label>
+            <input type="date" name="date" value="<%= new Date().toISOString().split('T')[0] %>" readonly>
+        </div>
+        <div class="choosefile">
+            <label for="image: "><b>Image</b></label>
+            <input type="file" name="imageURL" required>
+
+        </div>
+    </div>
+
+
+  <div>
+    <input type="submit" value="Add" class="btn" style="margin-top: 30px;">
+  </div>
+
+</form>

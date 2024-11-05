@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="top_container">
+
+        <div class="category">
+            <p>Blogs:</p>
+            <a href="">ALL</a>
+            <a href="">TRAVEL</a>
+            <a href="">LIFE</a>
+        </div>
+
+        <div class="search">
+            <input type="text" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </div>
+    <div class="bottom_container">
+        <% posts.forEach(post => { %>
+            <div class="blog">
+                <img src="/images/<%= post.imageURL %>" alt="">
+                
+                <div class="blog_content">
+                    <h1><%= post.title %></h1>
+                    <p><%= post.body %></p>
+                    <div class="blog_content_bottom">
+                        <div class="catelory">
+                            <i class="fa-solid fa-list"></i>
+                            <p>
+                                <%= categorys.find(category => category.id === post.category)?.name ?? 'Không xác định' %>
+                            </p>
+                            </div>
+
+                        <div class="time_post">
+                            <i class="fa-solid fa-business-time"></i>
+                            <p><%= post.date %></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+
+    </div>
+
+
+</div>

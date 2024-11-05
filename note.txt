@@ -1,0 +1,3 @@
+node server/config/db.js
+npm install bcrypt jsonwebtoken
+npm install multer
