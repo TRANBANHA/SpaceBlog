@@ -280,6 +280,13 @@ input[type="text"]{
   transform: translateY(-5px); /* Dịch chuyển blog lên trên một chút khi hover */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Tăng bóng đổ khi hover */
 }
+.container_img{
+  position: relative;
+  display: inline-block;
+  height: 25vh;
+  overflow: hidden; 
+
+}
 
 .blog img {
   width: 100%; 
