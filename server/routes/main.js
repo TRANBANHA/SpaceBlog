@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const User = require('../models/User');
 const Post = require('../models/Post'); // Nhập mô hình Post
 const Category = require('../models/Category'); // Nhập mô hình Category
 const authMiddleware = require('../../middlewares/authMiddleware'); // Import authMiddleware
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
 
 
 // Route tìm kiếm bài viết(cho admin và main)
-router.get('/search', async (req, res) => { 
+router.get('/search', authMiddleware, async (req, res) => { 
   try {
     const { search } = req.query;
     
@@ -46,16 +47,28 @@ router.get('/search', async (req, res) => {
 
     const categorys = await Category.find();   
 
-    const isAdmin = req.cookies.token ? true : false; 
-    const authentication = isAdmin ? 'LOGOUT' : 'LOGIN';
+    let username = ''; // Mặc định là LOGIN
+    let layout = 'layouts/mainLayout'; // Mặc định là mainLayout
 
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+   
+    if (req.userId) {
+      const user = await User.findOne({ _id: req.userId });
+      if (user) {
+        username = user.username; 
+        layout = 'layouts/adminLayout'; 
+      }
+    }
+    console.error(username,layout);
+    
     res.render('index', {
       title: 'BLOG',
-      layout: isAdmin ? 'layouts/adminLayout' : 'layouts/mainLayout', 
+      layout: layout, 
       posts,
       categorys,
-      authentication
+      username 
     });
+
 
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu:", error);
@@ -65,8 +78,12 @@ router.get('/search', async (req, res) => {
 
 
 
+
+
+
+
 // Route thống kê bài viết(cho admin và main)
-router.get('/get_pdCatelory/:categoryId?', async (req, res) => { 
+router.get('/get_pdCatelory/:categoryId?',authMiddleware, async (req, res) => { 
   try {
     const { categoryId } = req.params;
     
@@ -81,15 +98,26 @@ router.get('/get_pdCatelory/:categoryId?', async (req, res) => {
       posts = await Post.find();
     }
 
-    const isAdmin = req.cookies.token ? true : false; 
-    const authentication = isAdmin ? 'LOGOUT' : 'LOGIN';
+    let username = ''; // Mặc định là LOGIN
+    let layout = 'layouts/mainLayout'; // Mặc định là mainLayout
 
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+   
+    if (req.userId) {
+      const user = await User.findOne({ _id: req.userId });
+      if (user) {
+        username = user.username; 
+        layout = 'layouts/adminLayout'; 
+      }
+    }
+    console.error(username,layout);
+    
     res.render('index', {
       title: 'BLOG',
-      layout: isAdmin ? 'layouts/adminLayout' : 'layouts/mainLayout', 
+      layout: layout, 
       posts,
       categorys,
-      authentication,
+      username 
     });
 
   } catch (error) {

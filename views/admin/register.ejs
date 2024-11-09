@@ -1,14 +1,31 @@
 <h3>REGISTER</h3>
-<form action="/register" method="POST" class="login_register-form">
 
+<form action="/admin/register" method="POST" class="login_register-form">
+    <!-- Trường username -->
     <label for="username"><b>Username</b></label>
-    <input type="email" placeholder="Enter Username" name="username">
+    <input type="text" placeholder="Enter Username" name="username" required value="<%= username || '' %>">
 
+    <!-- Trường email -->
+    <label for="email"><b>Email</b></label>
+    <% if (errorEmail && errorEmail.length > 0) { %>
+        <input type="email" placeholder="Enter email" name="email" required class="error" value="<%= email || '' %>">
+        <div class="error-message"><%= errorEmail %></div>
+    <% } else { %>
+        <input type="email" placeholder="Enter email" name="email" required value="<%= email || '' %>">
+    <% } %>
+
+    <!-- Trường mật khẩu -->
     <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password">
+    <input type="password" placeholder="Enter Password" name="password" required value="<%= password || '' %>">
 
-    <label for="password"><b>Re Password</b></label>
-    <input type="password" placeholder="Enter Re-password" name="rePassword">
+    <!-- Trường mật khẩu xác nhận -->
+    <label for="repassword"><b>Re Password</b></label>
+    <% if (errorPass && errorPass.length > 0) { %>     
+        <input type="password" placeholder="Enter Re-password" name="repassword" required class="error" value="<%= rePassword || '' %>">
+        <div class="error-message"><%= errorPass %></div>
+    <% } else { %>
+        <input type="password" placeholder="Enter Re-password" name="repassword" required value="<%= rePassword || '' %>">
+    <% } %>
 
     <div class="button-container">
         <input type="submit" value="Register" class="btn">

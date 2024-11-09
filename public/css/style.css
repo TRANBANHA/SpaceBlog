@@ -4,9 +4,46 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 }
+
+
+
+
+
+.error-message {
+  color: #f44336;  /* Màu đỏ cho thông báo lỗi */
+  font-size: 10px;
+  margin-bottom: 15px; /* Khoảng cách dưới thông báo */
+}
+
+/* Đảm bảo không có quy tắc CSS khác ghi đè */
+.login_register-form input[type="password"].error {
+  border-color: #f44336 !important; /* Viền đỏ */
+  background-color: #ffe6e6 !important; /* Nền nhạt */
+}
+.login_register-form input[type="email"].error {
+  border-color: #f44336 !important; /* Viền đỏ */
+  background-color: #ffe6e6 !important; /* Nền nhạt */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -385,7 +422,7 @@ h3 {
   width: 95%;
   padding: 10px;
   margin: 8px 0px 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #ebeaea;
   border-radius: 4px;
   font-size: 16px;
   background-color: #eeeeee;

@@ -18,8 +18,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/webblognodejs', {
             
             // Thêm dữ liệu cho User
             await User.create([
-                { username: "buivanphuc152003@", password: hashedPassword1 },
-                { username: "buivanphuc@", password: hashedPassword2 },
+                { username:"Hoàng Phúc",email: "buivanphuc152003@", password: hashedPassword1 },
+                { username:"Bá Nhã",email: "banha@", password: hashedPassword2 },
             ]);
             console.log("Dữ liệu User đã được thêm vào thành công");
 

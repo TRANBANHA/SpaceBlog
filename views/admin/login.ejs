@@ -1,16 +1,25 @@
 <h3>SIGN IN</h3>
-
 <form action="/admin" method="POST" class="login_register-form">
+    <!-- Trường email -->
+    <label for="email"><b>Email</b></label>
+    <% if (errorEmail && errorEmail.length > 0) { %>
+        <input type="email" placeholder="Enter Email" name="email" required value="<%= email || '' %>" class="error">
+        <div class="error-message"><%= errorEmail %></div>
+    <% } else { %>
+        <input type="email" placeholder="Enter Email" name="email" required value="<%= email || '' %>">
+    <% } %>
 
-    <label for="username"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username">
-
+    <!-- Trường mật khẩu -->
     <label for="password"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password">
-    
+    <% if (errorPass && errorPass.length > 0) { %>
+        <input type="password" placeholder="Enter Password" name="password" value="<%= password || '' %>" required class="error">
+        <div class="error-message"><%= errorPass %></div>
+    <% } else { %>
+        <input type="password" placeholder="Enter Password" name="password" value="<%= password || '' %>" required>
+    <% } %>
 
-    <div class="button-container"> 
+    <div class="button-container">
         <input type="submit" value="Login" class="btn">
     </div>
-    <a href="/admin/register" >Do not have an account? Register</a>
+    <a href="/admin/register">Do not have an account? Register</a>
 </form>
