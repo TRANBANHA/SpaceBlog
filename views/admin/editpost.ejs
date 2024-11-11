@@ -1,0 +1,66 @@
+<a href="/admin" class="btn_back"><i class="fa-solid fa-backward"></i> BACK</a>
+
+<div class="admin-title">
+  <h2>Edit Post</h2>
+</div>
+
+<form id="editPostForm" action="" method="POST" enctype="multipart/form-data" class="post-form">
+
+  <label for="title"><b>Title</b></label>
+  <input type="text" placeholder="Post Title" name="title" value="<%= post ? post.title : '' %>" required>
+
+  <label for="body"><b>Content</b></label>
+  <textarea name="body" cols="50" rows="10" required><%= post ? post.body : '' %></textarea>
+
+  <label for="category"><b>Category</b></label>
+  <select name="category" required class="cbb_category">
+    <option value="<%= category._id %>"><%= category.name%></option>
+    <% categorys.forEach(category => { %>
+      <option value="<%= category._id %>" <%= post && post.category && post.category._id == category._id ? 'selected' : '' %> >
+        <%= category.name %>
+      </option>
+    <% }); %>
+  </select>
+
+  <div class="post_bottom">
+    <div>
+      <label for="date"><b>Date posted</b></label>
+      <input type="date" name="date" value="<%= post ? post.date : new Date().toISOString().split('T')[0] %>" readonly>
+    </div>
+    <div class="choosefile">
+        <label for="image"><b>Image</b></label>
+        <div id="updateimg">
+            <a id="link" href="/images/<%= post.imageURL %>" target="_blank">Current Image</a>
+            <button type="button" id="show-file-input">Update Image</button>
+        </div>       
+        <input type="file" name="imageURL" id="image" style="display: none;">
+    </div>
+  </div>
+
+  <div>
+    <!-- Thêm name để phân biệt các nút submit -->
+    <input type="submit" value="Update" name="action" class="btn" style="margin-top: 30px;">
+    <input type="submit" value="Delete" name="action" class="btn" style="margin-top: 10px; background-color: orangered;">
+  </div>
+</form>
+
+<script>
+  document.getElementById('show-file-input').addEventListener('click', function() {
+    // Hiển thị input file khi người dùng bấm nút "Update Image"
+    document.getElementById('image').style.display = 'block';
+    document.getElementById('updateimg').style.display = 'none';
+  });
+
+  // Thêm sự kiện để thay đổi action của form dựa trên nút được nhấn
+  document.getElementById('editPostForm').addEventListener('submit', function(event) {
+    var actionValue = event.submitter.value; // Lấy giá trị của nút submit (Update hoặc Delete)
+    
+    if (actionValue === 'Delete') {
+      // Cập nhật lại action nếu là nút Delete
+      this.action = '/admin/deletepost/<%= post._id %>';
+    } else {
+      // Cập nhật lại action nếu là nút Update
+      this.action = '/admin/editpost/<%= post._id %>';
+    }
+  });
+</script>

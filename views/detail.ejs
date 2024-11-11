@@ -1,0 +1,20 @@
+<% if (userid) { %>
+    <a href="/admin" class="btn_back"><i class="fa-solid fa-backward"></i> BACK</a>
+<% } else { %>
+    <a href="/" class="btn_back"><i class="fa-solid fa-backward"></i> BACK</a>
+<% } %>
+<div class="detail_post">
+    <h1><%= post.title %></h1>
+    <div class="container_img">
+        <img src="/images/<%= post.imageURL %>" alt="">
+    </div>
+    <div class="catelory">
+        <i class="fa-solid fa-list"></i>
+        <p><%= category.name %></p>
+    </div>
+    <div class="time_post">
+        <i class="fa-solid fa-business-time"></i>
+        <p><%= post.date %></p>
+    </div>
+    <p><%= post.body %></p>
+</div>

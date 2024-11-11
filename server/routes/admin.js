@@ -74,6 +74,9 @@ router.get('/login', (req, res) => {
 
 
 
+
+
+
 // Router register
 router.post('/register',async (req, res)=>{
 try{
@@ -118,10 +121,6 @@ try{
 
 
 
-
-
-
-
 // Route hiển thị trang register
 router.get('/register', (req, res) => {
     res.render('admin/register', {
@@ -136,6 +135,20 @@ router.get('/register', (req, res) => {
         errorEmail: req.flash('errorEmail'),  
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -155,7 +168,8 @@ router.get('/', authMiddleware, async (req, res) => {
             username: user.username,
             layout: "layouts/adminLayout",
             posts,
-            categorys 
+            categorys,
+            userid:req.userId,
         });
     } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
@@ -179,7 +193,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.post('/postt', authMiddleware, upload.single('imageURL'), async (req, res) => {
+router.post('/post', authMiddleware, upload.single('imageURL'), async (req, res) => {
     
     
     try {
@@ -197,6 +211,11 @@ router.post('/postt', authMiddleware, upload.single('imageURL'), async (req, res
         return res.status(500).send("Internal Server Error");
     }
 });
+
+
+
+
+
 
 
 // Route hiển thị trang post
@@ -223,7 +242,83 @@ router.get('/post',authMiddleware, async (req, res) => {
 });
 
 
+router.get('/edit_post/:postID?',authMiddleware, async (req, res) => {
+    try {
+  
+    if(!req.userId){
+      return res.redirect("/admin/login");
+    }
+  
+    const { postID } = req.params;
+    let post = null;
+    let category = null;
+    if (postID) {
+      post = await Post.findOne({ _id: postID });
+      if (post) {
+        category = await Category.findOne({ _id: post.category });
+      }
+    }
+  
+    const user = await User.findOne({ _id: req.userId });
+  
+  
+    const categorys = await Category.find(); 
+    
+    res.render('admin/editpost', {
+      title: 'Post Page',
+      username: user.username,
+      layout: 'layouts/adminLayout',
+      categorys,
+      category,
+      post,
+     });
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+  
+
+  router.post('/editpost/:postID', authMiddleware, upload.single('imageURL'), async (req, res) => {
+    try {
+        const { postID } = req.params; // Lấy postID từ params
+
+        // Tạo dữ liệu cập nhật
+        const updatedPostData = {
+            title: req.body.title,
+            body: req.body.body,
+            category: req.body.category,
+            date: req.body.date,
+            imageURL: req.file ? req.file.filename : undefined // Nếu có ảnh mới thì update
+        };
+
+        // Cập nhật bài viết
+        const updatedPost = await Post.findByIdAndUpdate(postID, updatedPostData, { new: true });
+
+        // Kiểm tra nếu không tìm thấy bài viết
+        if (!updatedPost) {
+            return res.status(404).send("Post not found");
+        }
+
+        // Chuyển hướng về trang admin sau khi cập nhật
+        res.redirect("/admin");
+
+    } catch (error) {
+        console.error("Lỗi khi cập nhật bài viết:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+});
 
 
+router.post('/deletepost/:postID', authMiddleware, async (req, res) => {
+    try {
+        const { postID } = req.params; // Lấy postID từ params
+        await Post.findByIdAndDelete(postID);
+        res.redirect("/admin");
+    } catch (error) {
+        console.error("Lỗi khi cập nhật bài viết:", error);
+        return res.status(500).send("Internal Server Error");
+    }
+});
 
 module.exports = router;
