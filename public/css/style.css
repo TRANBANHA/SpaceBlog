@@ -115,7 +115,7 @@ body {
   text-align: center;
 }
 .header .nav a:hover{
-  font-size: 18px;
+  
   color: rgb(16, 74, 160);
 }
 .header .nav {
@@ -675,11 +675,6 @@ textarea {
 
 
 
-
-
-
-
-
 .contact-form input[type="text"],
 textarea {
     font-family: 'Poppins', sans-serif;
@@ -707,17 +702,229 @@ textarea {
   }
 
 
+/* Style for the dropdown container */
+.nav_right .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Style for the dropdown toggle (username) */
+.nav_right .dropdown .dropdown-toggle {
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Style for the dropdown content */
+.nav_right .dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+}
+
+/* Dropdown items */
+.nav_right .dropdown .dropdown-content a {
+  color: black;
+  width: 84%;
+  padding: 12px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color on hover */
+.nav_right .dropdown .dropdown-content a:hover {
+  background-color: #00579e;
+  color: #fff;
+}
+
+/* Định dạng toàn bộ form */
+.form-change-password {
+  max-width: 400px; /* Chiều rộng tối đa của form */
+  margin: 50px auto; /* Canh giữa theo chiều ngang và thêm khoảng cách trên dưới */
+  padding: 20px;
+  background-color: #f9f9f9; /* Màu nền nhẹ */
+  border: 1px solid #ddd; /* Viền nhẹ */
+  border-radius: 8px; /* Bo góc */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  font-family: Arial, sans-serif;
+}
+
+/* Các label */
+.form-change-password label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333; /* Màu chữ */
+}
+
+/* Các input field */
+.form-change-password input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc; /* Viền input */
+  border-radius: 5px;
+  box-sizing: border-box; /* Bao gồm padding và border trong width */
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+/* Thêm hiệu ứng focus cho input */
+.form-change-password input[type="password"]:focus {
+  border-color: #007BFF; /* Đổi màu viền khi focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Nút submit */
+.form-change-password .button-container {
+  text-align: center; /* Canh giữa nút */
+}
+
+.form-change-password .btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF; /* Màu xanh chủ đạo */
+  color: #fff; /* Màu chữ trắng */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover cho nút */
+.form-change-password .btn:hover {
+  background-color: #0056b3; 
+}
+
+/* Form Profile */
+.form-profile {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-profile label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-profile input,
+.form-profile textarea,
+.form-profile select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.form-profile textarea {
+  resize: vertical; /* Cho phép kéo dài textarea */
+  height: 100px;
+}
+
+.form-profile .btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-profile .btn:hover {
+  background-color: #218838;
+}
+
+.error {
+  border-color: #dc3545;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+/* Form Profile */
+.form-profile {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-profile label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
 
 
+.form-profile textarea,
+.form-profile select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.form-profile input{
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
 
+.form-profile textarea {
+  resize: vertical; /* Cho phép kéo dài textarea */
+  height: 100px;
+}
 
+.form-profile .btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
+.form-profile .btn:hover {
+  background-color: #218838;
+}
 
+.error {
+  border-color: #dc3545;
+}
 
-
-
-
-
-
-
-
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-bottom: 10px;
+}

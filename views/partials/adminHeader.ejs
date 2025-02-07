@@ -8,8 +8,18 @@
             <a href="/admin/settings">SETTING</a>
         </nav>
         <nav class="nav_right">
-            <a href="/admin/login"><%= username %></a>
+            <div class="dropdown">
+                <% if (username) { %>
+                    <a href="javascript:void(0)" class="dropdown-toggle"><%= username %></a>
+                <% } %>
+                <div class="dropdown-content">
+                    <a href="/admin/change-password">Đổi mật khẩu</a>
+                    <a href="/admin/profile">Profile</a>
+                    <a href="/admin/login">Logout</a>
+                </div>
+            </div>
         </nav>
+        
 
     </nav>
     <div class="banner-container">
@@ -28,3 +38,30 @@
         </div>
     </div>
 </header>
+<script>
+    // Lắng nghe sự kiện click vào phần tử .dropdown-toggle
+document.querySelector('.dropdown-toggle').addEventListener('click', function(event) {
+    // Ngừng sự kiện click truyền lên (prevent propagation)
+    event.stopPropagation();
+    
+    // Tìm phần tử dropdown-content
+    var dropdownContent = document.querySelector('.dropdown-content');
+    
+    // Kiểm tra nếu dropdown đang mở hay đóng và thay đổi trạng thái
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';  // Đóng dropdown
+    } else {
+        dropdownContent.style.display = 'block';  // Mở dropdown
+    }
+});
+
+// Đảm bảo khi người dùng click ngoài dropdown thì dropdown sẽ đóng
+document.addEventListener('click', function(event) {
+    var dropdownContent = document.querySelector('.dropdown-content');
+    if (!dropdownContent.contains(event.target) && !event.target.matches('.dropdown-toggle')) {
+        dropdownContent.style.display = 'none';  // Đóng dropdown khi click ngoài
+    }
+});
+
+
+</script>

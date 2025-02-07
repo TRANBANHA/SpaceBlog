@@ -150,8 +150,6 @@ router.get('/register', (req, res) => {
 
 
 
-
-
 // Route chính (hiển thị bài viết)
 router.get('/', authMiddleware, async (req, res) => {
     try {
@@ -321,4 +319,130 @@ router.post('/deletepost/:postID', authMiddleware, async (req, res) => {
     }
 });
 
+// Route hiển thị trang đổi mật khẩu
+router.get('/change-password', async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.redirect('/admin/login');
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        const user = await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.redirect('/admin/login');
+        }
+
+        res.render('admin/changePassword', {
+            title: 'Change Password',
+            username: user.username,
+            error: req.flash('error'),
+            success: req.flash('success'),
+            layout: 'layouts/adminLayout'
+        });
+    } catch (error) {
+        console.error("Lỗi khi hiển thị trang đổi mật khẩu:", error);
+        res.redirect('/admin/login');
+    }
+});
+
+// Route xử lý đổi mật khẩu
+router.post('/change-password', async (req, res) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.redirect('/admin/login');
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        const user = await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.redirect('/admin/login');
+        }
+
+        // Kiểm tra mật khẩu hiện tại
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordValid) {
+            req.flash('error', 'Mật khẩu hiện tại không đúng.');
+            return res.redirect('/admin/change-password');
+        }
+
+        // Kiểm tra mật khẩu mới và xác nhận mật khẩu
+        if (newPassword !== confirmPassword) {
+            req.flash('error', 'Mật khẩu mới và xác nhận mật khẩu không khớp.');
+            return res.redirect('/admin/change-password');
+        }
+
+        // Mã hóa mật khẩu mới và cập nhật
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        req.flash('success', 'Đổi mật khẩu thành công!');
+        res.redirect('/admin/change-password');
+    } catch (error) {
+        console.error("Lỗi khi đổi mật khẩu:", error);
+        req.flash('error', 'Đã xảy ra lỗi, vui lòng thử lại!');
+        res.redirect('/admin/change-password');
+    }
+});
+
+
+// Route hiển thị trang profile
+router.get('/profile', authMiddleware ,async (req, res) => {
+    try {
+        // Giả sử bạn đã có middleware xác thực token và userId
+        if (!req.userId) {
+            return res.redirect("/admin/login");
+        }
+
+        // Truy vấn user từ database
+        const user = await User.findOne({ _id: req.userId });
+
+        // Kiểm tra nếu không tìm thấy user
+        if (!user) {
+            return res.status(404).send("User not found"); // Hoặc redirect nếu cần
+        }
+
+    if(user){ 
+     res.render('admin/profile', {
+            title: 'Profile Page',
+            layout: 'layouts/adminLayout',
+            username: user.username,  
+            email: user.email,  
+         
+        });
+}
+
+       
+    } catch (error) {
+        console.error('Lỗi khi hiển thị trang profile:', error);
+        res.redirect('/admin');
+    }
+});
+
+// Route xử lý thay đổi profile
+router.post('/profile',authMiddleware ,async (req, res) => {
+    try {
+        const { username, email} = req.body;
+        const userId = req.userId; // Lấy từ middleware
+
+        // Cập nhật thông tin người dùng
+        await User.findByIdAndUpdate(userId, {
+            username,
+            email
+        });
+
+        req.flash('successMessage', 'Cập nhật thông tin thành công!');
+        res.redirect('/admin/profile');
+    } catch (error) {
+        console.error('Lỗi khi cập nhật profile:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 module.exports = router;

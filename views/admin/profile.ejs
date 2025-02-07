@@ -1,0 +1,30 @@
+<h3>Update Profile</h3>
+
+<form action="/admin/profile" method="POST" class="form-profile">
+    <!-- Username -->
+    <label for="username"><b>User name</b></label>
+        <input type="text" name="username" value="<%= username %>" class="error">
+
+    <!-- Email -->
+    <label for="email"><b>Email</b></label>
+   
+        <input type="email" name="email" value="<%= email %>" class="error">
+     
+
+    <!-- Description -->
+    <label for="description"><b>Description</b></label>
+    <textarea name="description" placeholder="Write about yourself..."></textarea>
+
+    <!-- Gender -->
+    <label for="gender"><b>Gender</b></label>
+    <select name="gender">
+        <option value="male" >Male</option>
+        <option value="female">Female</option>
+        <option value="other" >Other</option>
+    </select>
+
+    <div class="button-container">
+        <input type="submit" value="Update Profile" class="btn">
+    </div>
+</form>
+
